@@ -1,0 +1,38 @@
+version: "3"
+services:
+
+  mariadb:
+    image: mariadb:10.4.4
+    volumes:
+      - mariadb:/var/lib/mysql
+      - ../gate/deployments/rdbms/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    environment:
+      MYSQL_ROOT_PASSWORD: local
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 3100:8080
+
+  pubsub:
+    image: google/cloud-sdk:241.0.0
+    volumes:
+      - pubsub:/data
+    command: [gcloud, beta, emulators, pubsub, start, --data-dir=/data, "--host-port=0.0.0.0:8085"]
+    ports:
+      - 8085:8085
+
+  redis:
+    image: redis:5.0
+    volumes:
+      - redis:/data
+    ports:
+      - 6379:6379
+
+volumes:
+  mariadb:
+  pubsub:
+  redis:

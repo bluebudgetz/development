@@ -1,0 +1,42 @@
+version: "3"
+services:
+
+  gate:
+    build:
+      context: ../gate
+      dockerfile: build/Dockerfile
+    restart: on-failure
+    depends_on:
+      - mariadb
+      - redis
+    environment:
+      BB_LOG_FORMAT: pretty
+      BB_DB_USERNAME: bb
+      BB_DB_PASSWORD: bb
+      BB_DB_HOST: mariadb
+      BB_REDIS_HOST: redis
+    ports:
+      - 3001:3000
+
+  broker:
+    build:
+      context: ../broker
+      dockerfile: Dockerfile
+    restart: on-failure
+    depends_on:
+      - gate
+      - redis
+    environment:
+      BB_LOG_FORMAT: pretty
+      BB_GCP_PROJECTID: arikkfir
+      BB_REDIS_HOST: redis
+      PUBSUB_EMULATOR_HOST: pubsub:8085
+    ports:
+      - 8085:8085
+
+  front:
+    build:
+      context: ../front
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
