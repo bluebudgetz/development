@@ -31,8 +31,6 @@ services:
       BB_GCP_PROJECTID: arikkfir
       BB_REDIS_HOST: redis
       PUBSUB_EMULATOR_HOST: pubsub:8085
-    ports:
-      - 8085:8085
 
   front:
     build:
