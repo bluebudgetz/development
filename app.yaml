@@ -22,7 +22,7 @@ services:
   broker:
     build:
       context: ../broker
-      dockerfile: Dockerfile
+      dockerfile: build/Dockerfile
     restart: on-failure
     depends_on:
       - gate
