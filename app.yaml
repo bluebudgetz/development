@@ -10,13 +10,14 @@ services:
       - mariadb
       - redis
     environment:
+      BB_HTTP_PORT: 3001
       BB_LOG_FORMAT: pretty
       BB_DB_USERNAME: bb
       BB_DB_PASSWORD: bb
       BB_DB_HOST: mariadb
       BB_REDIS_HOST: redis
     ports:
-      - 3001:3000
+      - 3001:3001
 
   broker:
     build:
