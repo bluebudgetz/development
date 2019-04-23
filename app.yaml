@@ -30,6 +30,7 @@ services:
       BB_LOG_FORMAT: pretty
       BB_GCP_PROJECTID: arikkfir
       BB_REDIS_HOST: redis
+      BB_GATE_HOST: gate
       PUBSUB_EMULATOR_HOST: pubsub:8085
 
   front:
