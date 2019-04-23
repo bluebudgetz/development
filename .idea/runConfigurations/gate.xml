@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="go build gate" type="GoApplicationRunConfiguration" factoryName="Go Application">
+  <configuration default="false" name="gate" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="gate" />
     <working_directory value="$PROJECT_DIR$/../gate" />
     <go_parameters value="-i" />
