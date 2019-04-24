@@ -7,7 +7,7 @@
       <env name="BB_LOG_FORMAT" value="pretty" />
       <env name="BB_GCP_PROJECTID" value="arikkfir" />
       <env name="BB_REDIS_HOST" value="localhost" />
-      <env name="PUBSUB_EMULATOR_HOST" value="pubsub:8085" />
+      <env name="PUBSUB_EMULATOR_HOST" value="localhost:8085" />
     </envs>
     <kind value="FILE" />
     <filePath value="$PROJECT_DIR$/../broker/main.go" />
