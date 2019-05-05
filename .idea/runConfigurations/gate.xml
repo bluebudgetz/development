@@ -8,6 +8,8 @@
       <env name="BB_DB_USERNAME" value="bb" />
       <env name="BB_DB_PASSWORD" value="bb" />
       <env name="BB_LOG_FORMAT" value="pretty" />
+      <env name="BB_HTTP_CORS_HOST" value="localhost" />
+      <env name="BB_HTTP_CORS_PORT" value="3000" />
     </envs>
     <kind value="FILE" />
     <filePath value="$PROJECT_DIR$/../gate/main.go" />
