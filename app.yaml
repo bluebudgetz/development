@@ -7,13 +7,13 @@ services:
       dockerfile: build/Dockerfile
     restart: on-failure
     depends_on:
-      - mariadb
+      - db
       - redis
     environment:
       BB_LOG_FORMAT: pretty
       BB_DB_USERNAME: bb
       BB_DB_PASSWORD: bb
-      BB_DB_HOST: mariadb
+      BB_DB_HOST: db
       BB_REDIS_HOST: redis
     ports:
       - 3001:3001

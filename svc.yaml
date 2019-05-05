@@ -1,12 +1,11 @@
 version: "3"
 services:
 
-  mariadb:
+  db:
     image: mariadb:10.4.4
     volumes:
-      - mariadb:/var/lib/mysql
+      - db:/var/lib/mysql
       - ../gate/deployments/rdbms/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
-      - ../gate/deployments/rdbms/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf:ro
     environment:
       MYSQL_ROOT_PASSWORD: local
     ports:
@@ -34,6 +33,6 @@ services:
       - 6379:6379
 
 volumes:
-  mariadb:
+  db:
   pubsub:
   redis:
