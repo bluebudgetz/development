@@ -8,7 +8,6 @@
           <option name="name" value="bluebudgetz (DDL)" />
           <option name="urls">
             <array>
-              <option value="file://$PROJECT_DIR$/../gate/deployments/rdbms/schema.sql" />
               <option value="file://$PROJECT_DIR$/../gate/deployments/rdbms/migrations/01_create_tables.up.sql" />
             </array>
           </option>
