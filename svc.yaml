@@ -2,14 +2,13 @@ version: "3"
 services:
 
   db:
-    image: mariadb:10.4.4
-    volumes:
-      - db:/var/lib/mysql
-      - ../gate/deployments/rdbms/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    image: postgres:11.3
     environment:
-      MYSQL_ROOT_PASSWORD: local
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: local
+      POSTGRES_INITDB_ARGS: "--auth=trust --auth-host=trust --auth-local=trust"
     ports:
-      - 3306:3306
+      - 5432:5432
 
   adminer:
     image: adminer
@@ -33,6 +32,5 @@ services:
       - 6379:6379
 
 volumes:
-  db:
   pubsub:
   redis:
