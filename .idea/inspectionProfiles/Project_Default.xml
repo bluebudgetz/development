@@ -24,6 +24,7 @@
         <method importPath="database/sql" receiver="*Rows" name="Close" />
         <method importPath="cloud.google.com/go/pubsub" receiver="*Client" name="Close" />
         <method importPath="database/sql" receiver="*Tx" name="Rollback" />
+        <method importPath="io" receiver="ReadCloser" name="Close" />
       </methods>
     </inspection_tool>
     <inspection_tool class="TsLint" enabled="true" level="WARNING" enabled_by_default="true" />
