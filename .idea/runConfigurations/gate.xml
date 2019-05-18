@@ -5,15 +5,16 @@
     <go_parameters value="-i" />
     <envs>
       <env name="BB_HTTP_PORT" value="3001" />
-      <env name="BB_DB_USERNAME" value="root" />
-      <env name="BB_DB_PASSWORD" value="local" />
       <env name="BB_LOG_FORMAT" value="pretty" />
       <env name="BB_HTTP_CORS_HOST" value="localhost" />
       <env name="BB_HTTP_CORS_PORT" value="3000" />
+      <env name="BB_DB_POSTGRES_DSN" value="user=root password=local host=localhost port=5432 sslmode=disable connect_timeout=30" />
     </envs>
     <kind value="FILE" />
     <filePath value="$PROJECT_DIR$/../gate/main.go" />
     <directory value="$PROJECT_DIR$" />
-    <method v="2" />
+    <method v="2">
+      <option name="GoBeforeRunTask" command="generate main.go" />
+    </method>
   </configuration>
 </component>
