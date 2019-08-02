@@ -1,0 +1,112 @@
+version: "3"
+volumes:
+  pubsub:
+services:
+
+  pubsub:
+    image: google/cloud-sdk:254.0.0
+    command: [gcloud, beta, emulators, pubsub, start, --data-dir=/data, "--host-port=0.0.0.0:8085"]
+    volumes:
+      - pubsub:/data
+    ports:
+      - 8085:8085
+
+  redis:
+    image: redis:5.0
+    ports:
+      - 6379:6379
+
+  mongo:
+    image: mongo:4.0
+    command:
+      - --smallfiles
+      - --wiredTigerCacheSizeGB=1.5
+      - --bind_ip=0.0.0.0
+      - --quiet
+    environment:
+      MONGO_INITDB_DATABASE: bluebudgetz
+    volumes:
+      - ./init-mongodb.js:/docker-entrypoint-initdb.d/init-bluebudgetz-db.js
+    ports:
+      - 27017:27017
+
+  mongoku:
+    image: huggingface/mongoku:latest
+    depends_on:
+      - mongo
+    ports:
+      - 3100:3100
+
+  accounts:
+    build:
+      context: ../accounts
+      dockerfile: build/Dockerfile
+    depends_on:
+      - mongo
+    environment:
+      ACCOUNTS_MONGO_URI: mongodb://mongo:27017
+      ACCOUNTS_METRICS_PORT: 3102
+      ACCOUNTS_HTTP_PORT: 3002
+    ports:
+      - 3002:3002
+      - 3102:3102
+
+  transactions:
+    build:
+      context: ../transactions
+      dockerfile: build/Dockerfile
+    depends_on:
+      - mongo
+    environment:
+      TRANSACTIONS_MONGO_URI: mongodb://mongo:27017
+      TRANSACTIONS_METRICS_PORT: 3103
+      TRANSACTIONS_HTTP_PORT: 3003
+    ports:
+      - 3003:3003
+      - 3103:3103
+
+  gate:
+    build:
+      context: ../gate
+      dockerfile: build/Dockerfile
+    depends_on:
+      - accounts
+      - transactions
+    environment:
+      GATE_ACCOUNTS_HOST: accounts
+      GATE_ACCOUNTS_PORT: 3002
+      GATE_TRANSACTIONS_HOST: transactions
+      GATE_TRANSACTIONS_PORT: 3003
+      GATE_METRICS_PORT: 3101
+      GATE_HTTP_CORS: http://localhost:3000
+      GATE_HTTP_PORT: 3001
+    ports:
+      - 3001:3001
+      - 3101:3101
+
+  broker:
+    build:
+      context: ../broker
+      dockerfile: build/Dockerfile
+    depends_on:
+      - gate
+      - redis
+    environment:
+      BROKER_METRICS_PORT: 3104
+      BROKER_REDIS_HOST: redis
+      BROKER_REDIS_PORT: 6379
+      BROKER_GATE_HOST: gate
+      BROKER_GATE_PORT: 3001
+      BROKER_GCP_PUBSUB_CONSUMER_PROJECTID: arikkfir
+      BROKER_GCP_PUBSUB_CONSUMER_DEADLETTERBOXTOPIC: bluebudgetz.deadletterbox
+      BROKER_GCP_PUBSUB_CONSUMER_TOPIC: bluebudgetz.tx
+      BROKER_GCP_PUBSUB_CONSUMER_SUBSCRIPTION: bluebudgetz.tx.broker
+      BROKER_GCP_PUBSUB_CONSUMER_MAXFAILURES: "3"
+      PUBSUB_EMULATOR_HOST: pubsub:8085
+
+#  front:
+#    build:
+#      context: ../front
+#      dockerfile: Dockerfile
+#    ports:
+#      - 8080:8080
