@@ -10,8 +10,8 @@ function tx(date, source, target, amount, comments) {
         createdOn: date,
         updatedOn: null,
         issuedOn: date,
-        source: source,
-        target: target,
+        sourceAccountId: source,
+        targetAccountId: target,
         amount: amount,
         comments: comments
     };
