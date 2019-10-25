@@ -4,7 +4,7 @@ function account(_id, createdOn, name, parentId) {
     return {_id, createdOn, updatedOn: null, name, parentId};
 }
 
-function tx(date, source, target, amount, comments) {
+function tx(date, source, target, amount, comment) {
     return {
         origin: "Initialization",
         createdOn: date,
@@ -13,7 +13,7 @@ function tx(date, source, target, amount, comments) {
         sourceAccountId: source,
         targetAccountId: target,
         amount: amount,
-        comments: comments
+        comment: comment
     };
 }
 
