@@ -39,10 +39,10 @@ db.accounts.insert([
     account(CAR_LOAN, new Date("2019-02-01T00:00:00Z"), "Car Loan", LOANS),
     account(MORTGAGES, new Date("2019-03-01T00:00:00Z"), "Mortgages", BANK_ACCOUNT),
     account(HOME_MORTGAGE, new Date("2019-03-01T00:00:00Z"), "Home Mortgage", MORTGAGES),
-    account(OFFICE_MORTGAGE, new Date("2019-05-01T00:00:00Z"), "Big Company", MORTGAGES),
-    account(INSURANCES, new Date("2019-02-01T00:00:00Z"), "Big Company", BANK_ACCOUNT),
-    account(LIFE_INSURANCE, new Date("2019-02-01T00:00:00Z"), "Big Company", INSURANCES),
-    account(HEALTH_INSURANCE, new Date("2019-04-01T00:00:00Z"), "Big Company", INSURANCES),
+    account(OFFICE_MORTGAGE, new Date("2019-05-01T00:00:00Z"), "Office Mortgage", MORTGAGES),
+    account(INSURANCES, new Date("2019-02-01T00:00:00Z"), "Insurances", BANK_ACCOUNT),
+    account(LIFE_INSURANCE, new Date("2019-02-01T00:00:00Z"), "Life Insurance", INSURANCES),
+    account(HEALTH_INSURANCE, new Date("2019-04-01T00:00:00Z"), "Health Insurance", INSURANCES),
 ]);
 
 // TRANSACTIONS
