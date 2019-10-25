@@ -37,41 +37,13 @@ services:
     ports:
       - 3100:3100
 
-  accounts:
-    build:
-      context: ../accounts
-      dockerfile: build/Dockerfile
-    depends_on:
-      - mongo
-    environment:
-      ACCOUNTS_MONGO_URI: mongodb://mongo:27017
-      ACCOUNTS_METRICS_PORT: 3102
-      ACCOUNTS_HTTP_PORT: 3002
-    ports:
-      - 3002:3002
-      - 3102:3102
-
-  transactions:
-    build:
-      context: ../transactions
-      dockerfile: build/Dockerfile
-    depends_on:
-      - mongo
-    environment:
-      TRANSACTIONS_MONGO_URI: mongodb://mongo:27017
-      TRANSACTIONS_METRICS_PORT: 3103
-      TRANSACTIONS_HTTP_PORT: 3003
-    ports:
-      - 3003:3003
-      - 3103:3103
-
   gate:
     build:
       context: ../gate
       dockerfile: build/Dockerfile
     depends_on:
-      - accounts
-      - transactions
+      - mongo
+      - redis
     environment:
       GATE_ACCOUNTS_HOST: accounts
       GATE_ACCOUNTS_PORT: 3002
