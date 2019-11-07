@@ -37,37 +37,19 @@ services:
     depends_on:
       - mongo
       - redis
+      - pubsub
     environment:
-      GATE_ACCOUNTS_HOST: accounts
-      GATE_ACCOUNTS_PORT: 3002
-      GATE_TRANSACTIONS_HOST: transactions
-      GATE_TRANSACTIONS_PORT: 3003
-      GATE_METRICS_PORT: 3101
-      GATE_HTTP_CORS: http://localhost:3000
-      GATE_HTTP_PORT: 3001
+      DB_MONGODB_URI: mongodb://mongo:27017
+      DB_REDIS_URI: redis:6379
+      HTTP_CORS_ALLOW_ORIGIN: http://localhost:3000
+      LOG_PRETTY: "yes"
+      PUBSUB_DEAD_LETTERBOX_TOPIC: dead-letter-box
+      PUBSUB_EMULATOR_HOST: pubsub:8085
+      PUBSUB_MAX_PROCESS_FAILURES: "1"
+      PUBSUB_TX_SUBSCRIPTION: local/transactions/transactions-gate
     ports:
       - 3001:3001
-      - 3101:3101
-
-  broker:
-    build:
-      context: ../broker
-      dockerfile: build/Dockerfile
-    depends_on:
-      - gate
-      - redis
-    environment:
-      BROKER_METRICS_PORT: 3104
-      BROKER_REDIS_HOST: redis
-      BROKER_REDIS_PORT: 6379
-      BROKER_GATE_HOST: gate
-      BROKER_GATE_PORT: 3001
-      BROKER_GCP_PUBSUB_CONSUMER_PROJECTID: arikkfir
-      BROKER_GCP_PUBSUB_CONSUMER_DEADLETTERBOXTOPIC: bluebudgetz.deadletterbox
-      BROKER_GCP_PUBSUB_CONSUMER_TOPIC: bluebudgetz.tx
-      BROKER_GCP_PUBSUB_CONSUMER_SUBSCRIPTION: bluebudgetz.tx.broker
-      BROKER_GCP_PUBSUB_CONSUMER_MAXFAILURES: "3"
-      PUBSUB_EMULATOR_HOST: pubsub:8085
+      - 3002:3002
 
 #  front:
 #    build:
