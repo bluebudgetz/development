@@ -30,13 +30,6 @@ services:
     ports:
       - 27017:27017
 
-  mongoku:
-    image: huggingface/mongoku:latest
-    depends_on:
-      - mongo
-    ports:
-      - 3100:3100
-
   gate:
     build:
       context: ../gate
