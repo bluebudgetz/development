@@ -4,8 +4,8 @@ volumes:
 services:
 
   pubsub:
-    image: google/cloud-sdk:254.0.0
-    command: [gcloud, beta, emulators, pubsub, start, --data-dir=/data, "--host-port=0.0.0.0:8085"]
+    image: google/cloud-sdk:269.0.0
+    command: [gcloud, beta, emulators, pubsub, start, --data-dir=/data, "--host-port=0.0.0.0:8085", "--project=local"]
     volumes:
       - pubsub:/data
     ports:
