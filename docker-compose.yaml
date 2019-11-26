@@ -39,6 +39,7 @@ services:
       - redis
       - pubsub
     environment:
+      GOOGLE_APPLICATION_CREDENTIALS: ../etc/bluebudgetz-sa-key.json
       DB_MONGODB_URI: mongodb://mongo:27017
       DB_REDIS_URI: redis:6379
       HTTP_CORS_ALLOW_ORIGIN: http://localhost:3000
