@@ -5,58 +5,21 @@ volumes:
 
 services:
 
-  pubsub:
-    image: google/cloud-sdk:269.0.0
-    command: [gcloud, beta, emulators, pubsub, start, --data-dir=/data, "--host-port=0.0.0.0:8085", "--project=local"]
-    volumes:
-      - pubsub:/data
-    ports:
-      - 8085:8085
-
-  redis:
-    image: redis:5.0
-    ports:
-      - 6379:6379
-
   neo4j:
-    image: library/neo4j:3.5.16
-    environment:
-      NEO4J_AUTH: "none"
-      NEO4J_DBMS_DEFAULT__LISTEN__ADDRESS: "0.0.0.0"
-      NEO4J_apoc_export_file_enabled: "true"
-      NEO4J_apoc_import_file_enabled: "true"
-      NEO4J_apoc_import_file_use__neo4j__config: "true"
-      NEO4J_dbms_security_procedures_unrestricted: "true"
-    volumes:
-      - type: bind
-        source: ./neo4j/plugins-3.5.x
-        target: /plugins
-    ports:
-      - 7473:7473
-      - 7474:7474
-      - 7687:7687
+    build:
+      context: ../neo4j
+      dockerfile: Dockerfile
+    ports: [7473:7473, 7474:7474, 7687:7687]
 
   gate:
     build:
       context: ../gate
       dockerfile: build/dockerfile
-    depends_on:
-      - neo4j
-      - redis
-      - pubsub
+    depends_on: [neo4j]
     environment:
-      google_application_credentials: ../etc/bluebudgetz-sa-key.json
-      db_mongodb_uri: mongodb://mongo:27017
-      db_redis_uri: redis:6379
       http_cors_allow_origin: http://localhost:3000
       log_pretty: "yes"
-      pubsub_dead_letterbox_topic: dead-letter-box
-      pubsub_emulator_host: pubsub:8085
-      pubsub_max_process_failures: "1"
-      pubsub_tx_subscription: local/transactions/transactions-gate
-    ports:
-      - 3001:3001
-      - 3002:3002
+    ports: [3001:3001, 3002:3002]
 
 #  front:
 #    build:
@@ -64,15 +27,8 @@ services:
 #      dockerfile: Dockerfile
 #    ports:
 #      - 8080:8080
-#  mongo:
-#    image: mongo:4.0
-#    command:
-#      - --smallfiles
-#      - --bind_ip=0.0.0.0
-#      - --quiet
-#    environment:
-#      mongo_initdb_database: bluebudgetz
-#    volumes:
-#      - ./init-mongodb.js:/docker-entrypoint-initdb.d/init-bluebudgetz-db.js
-#    ports:
-#      - 27017:27017
+#      google_application_credentials: ../etc/bluebudgetz-sa-key.json
+#      pubsub_dead_letterbox_topic: dead-letter-box
+#      pubsub_emulator_host: pubsub:8085
+#      pubsub_max_process_failures: "1"
+#      pubsub_tx_subscription: local/transactions/transactions-gate
