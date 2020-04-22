@@ -5,19 +5,6 @@ volumes:
 
 services:
 
-#  pubsub:
-#    image: google/cloud-sdk:269.0.0
-#    command: [gcloud, beta, emulators, pubsub, start, --data-dir=/data, "--host-port=0.0.0.0:8085", "--project=local"]
-#    volumes:
-#      - pubsub:/data
-#    ports:
-#      - 8085:8085
-
-#  redis:
-#    image: redis:5.0
-#    ports:
-#      - 6379:6379
-
   neo4j:
     build:
       context: ../neo4j
@@ -45,3 +32,15 @@ services:
 #      pubsub_emulator_host: pubsub:8085
 #      pubsub_max_process_failures: "1"
 #      pubsub_tx_subscription: local/transactions/transactions-gate
+#  pubsub:
+#    image: google/cloud-sdk:269.0.0
+#    command: [gcloud, beta, emulators, pubsub, start, --data-dir=/data, "--host-port=0.0.0.0:8085", "--project=local"]
+#    volumes:
+#      - pubsub:/data
+#    ports:
+#      - 8085:8085
+
+#  redis:
+#    image: redis:5.0
+#    ports:
+#      - 6379:6379
